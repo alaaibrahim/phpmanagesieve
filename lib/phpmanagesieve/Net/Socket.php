@@ -34,6 +34,15 @@ class phpmanagesieve_Net_Socket implements phpmanagesieve_Net_ISocket{
      * @access protected
      */
     protected $socket;
+	
+	/**
+	 * Whether to debug or not, which if on, to output the result to the
+	 * console
+	 * 
+	 * @var bool
+	 * @access protected
+	 */
+	protected $debug = false;
 
     // Methods
 
@@ -58,6 +67,16 @@ class phpmanagesieve_Net_Socket implements phpmanagesieve_Net_ISocket{
              @fclose($this->socket);
         }
     }
+	
+	/**
+	 * setDebug
+	 * 
+	 * To turn On/Off the Debug, true to turn it on
+	 * @param bool $value
+	 */
+	public function setDebug($value) {
+		$this->debug = (bool) $value;
+	}
 
     /**
      * gets
@@ -67,8 +86,10 @@ class phpmanagesieve_Net_Socket implements phpmanagesieve_Net_ISocket{
      * @return string
      */
     public function gets($length = null) {
-        return isset($length) ?
+		$returnValue = isset($length) ?
             @fgets($this->socket, $length):@fgets($this->socket);
+		if($this->debug) echo "S: " . $returnValue;
+		return $returnValue;
     }
 
     /**
@@ -80,9 +101,11 @@ class phpmanagesieve_Net_Socket implements phpmanagesieve_Net_ISocket{
      * @return integer number of bytes written.
      */
     public function puts($string, $length = null) {
-        return isset($length) ?
+        $returnValue = isset($length) ?
             @fputs($this->socket, $string, $length):
             @fputs($this->socket, $string);
+		if($this->debug) echo "C: " . $string;
+		return $returnValue;
     }
 
     /**
