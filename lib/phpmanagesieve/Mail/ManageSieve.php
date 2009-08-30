@@ -105,7 +105,7 @@ class phpmanagesieve_Mail_ManageSieve {
             } elseif (preg_match('/^"(.*)$/i',$line,$name)) {
                 $scripts["NOTACTIVE"][] = $name[1];
             } else {
-                echo "UNKNOWN".PHP_EOL;
+                throw new phpmanagesieve_Mail_ManageSieve_Exception("Listscripts: Unknown script type ".$line);
             }
         }
         return $scripts;
